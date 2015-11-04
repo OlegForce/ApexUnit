@@ -122,11 +122,12 @@ public class ConnectionHandler {
 				config.setProxy(System.getProperty("proxyHost"), Integer.valueOf(System.getProperty("proxyPort")));
 			}
 			
-			LOG.debug("creating connection for : " + CommandLineArguments.getUsername() + " "
+			LOG.info("creating connection for : " + CommandLineArguments.getUsername() + " "
 					+ CommandLineArguments.getPassword() + " " + CommandLineArguments.getOrgUrl() + " "
 					+ config.getUsername() + " " + config.getPassword() + " " + config.getAuthEndpoint());
 			try {
 				connection = Connector.newConnection(config);
+			
 				setSessionIdFromConnectorConfig(config);
 				LOG.debug("Partner Connection established with the org!! \n SESSION  ID IN createPartnerConn: "
 						+ sessionIdFromConnectorConfig);
