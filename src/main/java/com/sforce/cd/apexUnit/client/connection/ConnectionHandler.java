@@ -110,6 +110,18 @@ public class ConnectionHandler {
 			config.setUsername(CommandLineArguments.getUsername());
 			config.setPassword(CommandLineArguments.getPassword());
 			config.setAuthEndpoint(CommandLineArguments.getOrgUrl() + "/services/Soap/u/" + SUPPORTED_VERSION);
+				
+			//add proxy handling - olegforce
+			LOG.info("Checking proxy settings...");
+			
+			LOG.info("proxyHost = " + System.getProperty("proxyHost"));
+			LOG.info("proxyPort = " + System.getProperty("proxyPort"));
+			
+			if (System.getProperty("proxyHost") != null && System.getProperty("proxyPort") != null) {
+				
+				config.setProxy(System.getProperty("proxyHost"), Integer.valueOf(System.getProperty("proxyPort")));
+			}
+			
 			LOG.debug("creating connection for : " + CommandLineArguments.getUsername() + " "
 					+ CommandLineArguments.getPassword() + " " + CommandLineArguments.getOrgUrl() + " "
 					+ config.getUsername() + " " + config.getPassword() + " " + config.getAuthEndpoint());
@@ -169,7 +181,13 @@ public class ConnectionHandler {
 		config.setRestEndpoint(restEndPoint);
 		config.setCompression(true);
 		config.setTraceMessage(false);
-		// config.setProxy("Proxy", 8080);
+		
+		//add proxy handling - olegforce 
+		if (System.getProperty("proxyHost") != null && System.getProperty("proxyPort") != null) {
+			
+			config.setProxy(System.getProperty("proxyHost"), Integer.valueOf(System.getProperty("proxyPort")));
+		}
+		
 		try {
 			bulkConnection = new BulkConnection(config);
 			LOG.info("Bulk connection established.");
